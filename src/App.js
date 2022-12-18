@@ -18,6 +18,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // fetch num dogs get us whatever dogs we need
     dispatch(fetchNumDogs(4));
   }, [dispatch]);
 
@@ -35,6 +36,7 @@ function App() {
   };
 
   // useMemo is a good way of caching to make sure we don't have to recalculate who's in our array!
+  // the array depdency is like useEffect, says recaculate this whenever our dog or filter state changes
   const currentDogs = useMemo(
     () => getCurrentDogs(dogs, filter),
     [dogs, filter]
