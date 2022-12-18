@@ -45,7 +45,9 @@ After doing this, you should be able to refresh the page and the likes should pe
 ## To skip ahead/see sample solutions
 
 1. `git add . && git commit -m "#PUT TIME HERE#"`
-2. `git checkout -b deliverable-#NUMBER OF DELIVERABLE HERE#`
+2. For a sample solution to a specific deliverable:
+`git checkout deliverable-#NUMBER OF DELIVERABLE HERE#`
+3. To see the full solution: `git checkout solution`
 3. Check out what you need to check out, maybe copy/paste somewhere.
 4. When you're done, to return to your work: `git stash && git checkout #FIRSTNAMEHERE#`
 
