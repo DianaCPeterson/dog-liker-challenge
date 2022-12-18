@@ -2,120 +2,113 @@ import { useState, useEffect, useMemo } from "react";
 import DogDiv from "./DogDiv";
 import "./App.css";
 
-const DOG_URL = "https://dog.ceo/api/breeds/image/random/4";
-
-// maps preserve order of insertion in JS
-const DROPDOWN_VALUES = {
-  "All Dogs": "all",
-  "Good Dogs": "good",
-  "OK Dogs": "ok",
+// extremely silly, ignore
+console.dog = (message) => {
+  console.log("woof woof arf");
+  console.log(message);
 };
+const DOGS_URL = "http://localhost:3004/dogs";
+
+//DELIVERABLE 4: let's create a function that gives us a specific dogs url
+const singleDogUrl = (id) => DOGS_URL + "/" + id;
 
 function App() {
-  // example of simple state, a count
-  const [count, setCount] = useState(0);
+  // DELIVERABLE 1: dogs will be an array
+  const [dogs, setDogs] = useState([]);
 
-  // example of complex state, an object
-  const [dogs, setDogs] = useState({});
-
-  // example of filter state logic
+  // DELIVERABLE 3: example of filter state logic
   const [filter, setFilter] = useState("all");
 
-  // instead of an array of strings, i want dogs to be an object with:
-  // {img_url: Boolean(true/false)}
-
-  // using async/await instead of .then
-  // const getDogs = async () => {
-  //   const resp = await fetch(DOG_URL);
-  //   const { message } = await resp.json();
-  //   setDogs(message);
-  //   console.log(dogs);
-  // };
-
+  // DELIVERABLE 1: fetch the dogs and set them to state
   useEffect(() => {
-    fetch(DOG_URL)
+    fetch(DOGS_URL)
       .then((resp) => resp.json())
-      // object destructuring because we know the response has a key of message which is an array of dog img urls
-      .then(({ message }) => {
-        // create the initial state for dogs
-        const dogTracker = {};
-        // initialize each dog to false
-        message.forEach((dog) => (dogTracker[dog] = false));
-        // set state
-        setDogs(dogTracker);
-      })
+      .then((data) => setDogs(data))
       .catch((e) => console.error(e));
     // getDogs();
   }, []);
 
+  // DELIVERABLE 3: Handle filtering for the dogs based on likes
   const dogsToReturn = (dogs, filter) => {
-    const dogArray = Object.keys(dogs);
-    if (filter === "ok") {
-      //return all dogs tracked as being ok or "false"
-      return dogArray.filter((dog) => !dogs[dog]);
-    } else if (filter === "good") {
-      // return all dogs tracked as being good or "true"
-      return dogArray.filter((dog) => dogs[dog]);
+    if (filter === "liked") {
+      //return all dogs with likes
+      return dogs.filter((dog) => dog.likes > 0);
     } else {
-      // if it's "all", the third option return all dogs
-      return dogArray;
+      // if the filter says "all", return all dogs
+      return dogs;
     }
+  };
+
+  /* 
+  DELIVERABLE 3: BONUS
+  useMemo is a good hook for filtered lists that 
+  caches stateful stuff that you have to do a lot of logic on!
+  */
+  const cachedDogs = useMemo(() => dogsToReturn(dogs, filter), [dogs, filter]);
+
+  // DELIVERABLE 4: the patch logic is annoying
+  // let's separate it to your own function
+  const patchDog = (id, likes) => {
+    fetch(singleDogUrl(id), {
+      method: "PATCH",
+      body: JSON.stringify({
+        likes,
+      }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    })
+      .then((resp) => resp.json())
+      .then((data) => console.dog(data))
+      .catch((e) => console.error(e));
+  };
+
+  // DELIVERABLE 2: addLike, let's use linear search
+  const addLike = (id, currentLikes) => {
+    // increment likes
+    const updatedLikes = currentLikes + 1;
+    // we cant mutate state directly so let's make a copy of the array
+    const copyOfDogs = [...dogs];
+    // let's find the index of the dog we want to change
+    const foundDogIndex = copyOfDogs.findIndex((dog) => dog.id === id);
+    // let's change the value
+    copyOfDogs[foundDogIndex].likes = updatedLikes;
+    // let's update state
+    setDogs(copyOfDogs);
+    //DELIVERABLE 4: let's also patch the server
+    patchDog(id, updatedLikes);
   };
 
   return (
     <div className="App">
-      <h1>This is React</h1>
-      {/* simple state example with a counter*/}
-      <h2>Simple State Section</h2>
-      <h3>
-        The count is: <span>{count}</span>
-      </h3>
-      <button
-        onClick={() => {
-          setCount(count + 1);
-        }}
-      >
-        Click to Increment
-      </button>
-      <br />
-      <h2>Complex State Section</h2>
+      <h2>Welcome to the Dog Liker!</h2>
       <div>
         <br />
         {/* example of a drodown implementation */}
         <select
           onChange={(e) => {
-            // onChange is used for a dropdown and the value is the value of the option selected
+            // DELIVERABLE 3: onChange is used for a dropdown and the value is the value of the option selected
             setFilter(e.target.value);
           }}
         >
-          {Object.keys(DROPDOWN_VALUES).map((key) => {
-            return <option value={DROPDOWN_VALUES[key]}>{key}</option>;
-          })}
+          <option value="all">All Dogs</option>
+          <option value="liked">Liked Dogs</option>
         </select>
         <br />
         <br />
-        {/* complex state example using the dogs state */}
-
         {/* we use Array.prototype.map because an array of JSX object is valid react code */}
-        {/* we pass down both the isGoodBoy boolean and a callback function to change the boolean!*/}
-        {/* we use a ternary to check whether all the currently filtered dogs have a length greater than 0 */}
-        {/* a length > 0 is truthy and less than 0 is falsy! */}
-        {dogsToReturn(dogs, filter).length ? (
-          dogsToReturn(dogs, filter).map((dog) => {
-            return (
-              <DogDiv
-                dog={dog}
-                name="Rover"
-                isGoodBoy={dogs[dog]}
-                toggleGoodBoy={() => {
-                  setDogs({ ...dogs, [dog]: !dogs[dog] });
-                }}
-              />
-            );
-          })
-        ) : (
-          <h2>No Dogs To Show ;(</h2>
-        )}
+        <div id="dogs">
+          {/* DELIVERABLE 3: Check to see if there are any dogs to show */}
+          {/* we use a ternary to check whether all the currently filtered dogs have a length greater than 0 */}
+          {/* a length > 0 is truthy and less than 0 is falsy! */}
+          {cachedDogs.length ? (
+            cachedDogs.map((dog) => {
+              return <DogDiv dog={dog} addLike={addLike} />;
+            })
+          ) : (
+            <h2>No Dogs To Show ;(</h2>
+          )}
+        </div>
       </div>
     </div>
   );

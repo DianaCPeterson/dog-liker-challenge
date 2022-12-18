@@ -1,70 +1,52 @@
-# Getting Started with Create React App
+### Dog Liker Challenge
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+1. `git checkout -b #FIRSTNAMEHERE#`
+2. `npm install`
+3. `npm run start`
+4. Your server will run on `localhost:3004/dogs`. Your React frontend will run on `localhost:3000`
+5. Your server at `localhost:3004/dogs` returns a response that looks like this:
+```JSON
+[
+    {
+    "image": "https://images.dog.ceo/breeds/labradoodle/Cali.jpg",
+    "likes": 0,
+    "id": 1,
+    "name": "Rover"
+  },
+  {
+    "image": "https://images.dog.ceo/breeds/beagle/n02088364_16689.jpg",
+    "likes": 0,
+    "id": 2,
+    "name": "Bingo"
+  },
+]
+```
+6. DELIVERABLE 1: Write code in `App.js` that fetches all dogs from the server and then renders them inside in the `div` with the `id` of `dogs`. Each dog should be represented in an individual div that looks like:
+```jsx
+<div className="dog">
+    <img src="#IMAGE HERE#" alt="#NAME HERE#">
+    <p>#NAME HERE#</p>
+    <p>Likes: #LIKES HERE#</p>
+    <button>Like</button>
+</div>
+```
+7. DELIVERABLE 2: Refactor the code so that each `Dog` now has it's own component that is imported to `App.js` and passed props in order to render it. In addition to the server data, create a function `addLike` that will add a like to a particular dog (only locally, no persistence needed).
 
-## Available Scripts
+7. DELIVERABLE 3: Update the event handler for the `select` dropdown so it now filters successfully between `All Dogs` and dogs with one or more likes or `Liked Dogs`. If there are no dogs to show, instead of showing nothing show an `<h2>` with the phrase `No Dogs To Show ;(`.
 
-In the project directory, you can run:
+8. DELIVERABLE 4: Refactor your `addLike` function so that it now makes a `PATCH` request to `http://localhost:3004/dogs/:id` where the id is the ID of the dog you wish to change. The body of the request (before JSON.stringify) should look like:
+```JSON
+    {"likes": "#NEW NUMBER OF LIKES HERE#"}
+```
+After doing this, you should be able to refresh the page and the likes should persist.
 
-### `npm start`
+***
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## To skip ahead/see sample solutions
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. `git add . && git commit -m "#PUT TIME HERE#"`
+2. `git checkout -b deliverable-#NUMBER OF DELIVERABLE HERE#`
+3. Check out what you need to check out, maybe copy/paste somewhere.
+4. When you're done, to return to your work: `git stash && git checkout #FIRSTNAMEHERE#`
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

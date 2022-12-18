@@ -1,15 +1,20 @@
-export default function DogDiv(props) {
-  const { dog, name, isGoodBoy, toggleGoodBoy } = props;
+// DELIVERABLE 2: this is our UI Component for each dog
+
+export default function DogDiv({ dog, addLike }) {
+  // we know the properties of props and the dog, so destructure those
+  const { image, likes, id, name } = dog;
   return (
-    <div className="dog">
-      <img src={dog} alt={dog} />
+    <div key={id} className="dog">
+      <img src={image} alt={name} />
       <p>{name}</p>
+      <p>Likes: {likes}</p>
       <button
         onClick={() => {
-          toggleGoodBoy();
+          // DELIVERABLE 2: use the ID to find the dog we need
+          addLike(id, likes);
         }}
       >
-        {!isGoodBoy ? "OK Dog" : "Good Dog"}
+        Like
       </button>
       <br />
       <br />
