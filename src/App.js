@@ -20,12 +20,16 @@ function App() {
   const [filter, setFilter] = useState("all");
 
   // DELIVERABLE 1: fetch the dogs and set them to state
+  // use the useEffect hook for fetches on load!
   useEffect(() => {
     fetch(DOGS_URL)
       .then((resp) => resp.json())
       .then((data) => setDogs(data))
       .catch((e) => console.error(e));
-    // getDogs();
+    /* 
+    use an empty array as the second argument to 
+    useEffect to only run once-ish on load
+    */
   }, []);
 
   // DELIVERABLE 3: Handle filtering for the dogs based on likes
@@ -39,12 +43,18 @@ function App() {
     }
   };
 
+  // DELIVERABLE 3: BASIC
+  // variable for the filtered dogs
+  // comment out here and uncomment below to try that version!
+  const filteredDogs = dogsToReturn(dogs, filter);
+
   /* 
   DELIVERABLE 3: BONUS
   useMemo is a good hook for filtered lists that 
   caches stateful stuff that you have to do a lot of logic on!
   */
-  const cachedDogs = useMemo(() => dogsToReturn(dogs, filter), [dogs, filter]);
+  // uncomment below and comment out the other filteredDogs above to try!
+  // const filteredDogs = useMemo(() => dogsToReturn(dogs, filter), [dogs, filter]);
 
   // DELIVERABLE 4: the patch logic is annoying
   // let's separate it to your own function
@@ -52,13 +62,14 @@ function App() {
     fetch(singleDogUrl(id), {
       method: "PATCH",
       body: JSON.stringify({
-        likes,
+        likes: likes,
       }),
       headers: {
         "Content-type": "application/json",
       },
     })
       .then((resp) => resp.json())
+      // the patch fetch returns the individual dog!
       .then((data) => console.dog(data))
       .catch((e) => console.error(e));
   };
@@ -87,9 +98,13 @@ function App() {
         {/* example of a drodown implementation */}
         <select
           onChange={(e) => {
-            // DELIVERABLE 3: onChange is used for a dropdown and the value is the value of the option selected
+            /* 
+            DELIVERABLE 3: onChange is used for a dropdown and the value is the value of the option selected
+            the value of the dropdown should be the stateful value, i.e: filter!
+             */
             setFilter(e.target.value);
           }}
+          value={filter}
         >
           <option value="all">All Dogs</option>
           <option value="liked">Liked Dogs</option>
@@ -101,8 +116,8 @@ function App() {
           {/* DELIVERABLE 3: Check to see if there are any dogs to show */}
           {/* we use a ternary to check whether all the currently filtered dogs have a length greater than 0 */}
           {/* a length > 0 is truthy and less than 0 is falsy! */}
-          {cachedDogs.length ? (
-            cachedDogs.map((dog) => {
+          {filteredDogs.length ? (
+            filteredDogs.map((dog) => {
               return <DogDiv dog={dog} addLike={addLike} />;
             })
           ) : (
