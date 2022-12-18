@@ -9,9 +9,6 @@ console.dog = (message) => {
 };
 const DOGS_URL = "http://localhost:3004/dogs";
 
-//DELIVERABLE 4: let's create a function that gives us a specific dogs url
-const singleDogUrl = (id) => DOGS_URL + "/" + id;
-
 function App() {
   // DELIVERABLE 1: dogs will be an array
   const [dogs, setDogs] = useState([]);
@@ -56,24 +53,6 @@ function App() {
   // uncomment below and comment out the other filteredDogs above to try!
   // const filteredDogs = useMemo(() => dogsToReturn(dogs, filter), [dogs, filter]);
 
-  // DELIVERABLE 4: the patch logic is annoying
-  // let's separate it to your own function
-  const patchDog = (id, likes) => {
-    fetch(singleDogUrl(id), {
-      method: "PATCH",
-      body: JSON.stringify({
-        likes: likes,
-      }),
-      headers: {
-        "Content-type": "application/json",
-      },
-    })
-      .then((resp) => resp.json())
-      // the patch fetch returns the individual dog!
-      .then((data) => console.dog(data))
-      .catch((e) => console.error(e));
-  };
-
   // DELIVERABLE 2: addLike, let's use linear search
   const addLike = (id, currentLikes) => {
     // increment likes
@@ -86,8 +65,6 @@ function App() {
     copyOfDogs[foundDogIndex].likes = updatedLikes;
     // let's update state
     setDogs(copyOfDogs);
-    //DELIVERABLE 4: let's also patch the server
-    patchDog(id, updatedLikes);
   };
 
   return (
