@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+
+// extremely silly, ignore
+console.dog = (message) => {
+  console.log("woof woof arf");
+  console.log(message);
+};
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      <h2>Welcome to the Dog Liker!</h2>
+      <div>
+        <br />
+        {/* example of a drodown implementation */}
+        <select
+          onChange={(e) => {
+            console.log(e.target.value);
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          <option value="all">All Dogs</option>
+          <option value="liked">Liked Dogs</option>
+        </select>
+        <br />
+        <br />
+        <div id="dogs">
+          <h3>Put Dogs Here!</h3>
+        </div>
+      </div>
     </div>
   );
 }
