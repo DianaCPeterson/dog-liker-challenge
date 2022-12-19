@@ -48,7 +48,7 @@ function App() {
         {/* example of a drodown implementation */}
         <select
           onChange={(e) => {
-            console.log(e.target.value);
+            console.dog(e.target.value);
           }}
         >
           <option value="all">All Dogs</option>
