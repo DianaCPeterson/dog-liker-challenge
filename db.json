@@ -1,0 +1,64 @@
+{
+  "dogs": [
+    {
+      "image": "https://images.dog.ceo/breeds/labradoodle/Cali.jpg",
+      "likes": 2,
+      "id": 1,
+      "name": "Rover"
+    },
+    {
+      "image": "https://images.dog.ceo/breeds/beagle/n02088364_16689.jpg",
+      "likes": 1,
+      "id": 2,
+      "name": "Bingo"
+    },
+    {
+      "image": "https://images.dog.ceo/breeds/terrier-lakeland/n02095570_918.jpg",
+      "likes": 0,
+      "id": 3,
+      "name": "Sparky"
+    },
+    {
+      "image": "https://images.dog.ceo/breeds/setter-irish/n02100877_5986.jpg",
+      "likes": 0,
+      "id": 4,
+      "name": "Spot"
+    },
+    {
+      "image": "https://images.dog.ceo/breeds/clumber/n02101556_2002.jpg",
+      "likes": 0,
+      "id": 5,
+      "name": "Hoshi"
+    },
+    {
+      "image": "https://images.dog.ceo/breeds/springer-english/n02102040_3476.jpg",
+      "likes": 0,
+      "id": 6,
+      "name": "Wolfgang"
+    },
+    {
+      "image": "https://images.dog.ceo/breeds/terrier-yorkshire/n02094433_96.jpg",
+      "likes": 0,
+      "id": 7,
+      "name": "Bella"
+    },
+    {
+      "image": "https://images.dog.ceo/breeds/retriever-golden/n02099601_7432.jpg",
+      "likes": 0,
+      "id": 8,
+      "name": "Queen"
+    },
+    {
+      "image": "https://images.dog.ceo/breeds/shihtzu/n02086240_3493.jpg",
+      "likes": 0,
+      "id": 9,
+      "name": "Stevie"
+    },
+    {
+      "image": "https://images.dog.ceo/breeds/setter-gordon/n02101006_3288.jpg",
+      "id": 10,
+      "likes": 0,
+      "name": "Dolly Parton"
+    }
+  ]
+}

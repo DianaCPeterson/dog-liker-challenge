@@ -1,5 +1,5 @@
-### Dog Liker Challenge
-
+# Dog Liker Challenge
+## Getting Started
 1. `git checkout -b #FIRSTNAMEHERE#`
 2. `npm install`
 3. `npm run start`
