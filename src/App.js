@@ -1,5 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
-import DogDiv from "./DogDiv";
+import { useState, useEffect } from "react";
 import "./App.css";
 
 // extremely silly, ignore
@@ -26,20 +25,6 @@ function App() {
     */
   }, []);
 
-  // DELIVERABLE 2: addLike, let's use linear search
-  const addLike = (id, currentLikes) => {
-    // increment likes
-    const updatedLikes = currentLikes + 1;
-    // we cant mutate state directly so let's make a copy of the array
-    const copyOfDogs = [...dogs];
-    // let's find the index of the dog we want to change
-    const foundDogIndex = copyOfDogs.findIndex((dog) => dog.id === id);
-    // let's change the value
-    copyOfDogs[foundDogIndex].likes = updatedLikes;
-    // let's update state
-    setDogs(copyOfDogs);
-  };
-
   return (
     <div className="App">
       <h2>Welcome to the Dog Liker!</h2>
@@ -58,9 +43,26 @@ function App() {
         <br />
         {/* we use Array.prototype.map because an array of JSX object is valid react code */}
         <div id="dogs">
-          {/* DELIVERABLE 2: map out the dogs array to individual components */}
+          {/* DELIVERABLE 1: map out the dogs to the pattern given */}
           {dogs.map((dog) => {
-            return <DogDiv dog={dog} addLike={addLike} />;
+            // we know the properties of props and the dog, so destructure those
+            const { image, likes, id, name } = dog;
+            return (
+              <div key={id} className="dog">
+                <img src={image} alt={name} />
+                <p>{name}</p>
+                <p>Likes: {likes}</p>
+                <button
+                  onClick={() => {
+                    console.log("clicked!");
+                  }}
+                >
+                  Like
+                </button>
+                <br />
+                <br />
+              </div>
+            );
           })}
         </div>
       </div>
